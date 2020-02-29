@@ -85,7 +85,7 @@ enum class Command : uint8_t {
    GAFFE_CANCELED = 65,
    CHECKSUM_NOT_MATCH = 6,
    FULL_GAME_MSG = 1,
-   CHECK_GUTTER = 61,
+   CHECK_GAFFE = 61,
    ACKNOWLEDGED = 43,
    REQ_REPEAT = 44,
    KNOT_CMD = 70
@@ -140,10 +140,12 @@ struct State {
    uint8_t currentPoints = 0;
    uint8_t knotCounter = 0;
    uint8_t overloadCounter = 0;
+   uint8_t pinsUpCounter = 0;
    uint8_t rounds = 0;
    uint16_t score = 0;
 
    bool noneFallen = true;
+   bool isGaffe = false;
 
    Game currentGameType;
 
@@ -192,6 +194,8 @@ Message receiveMessage() {
       Comm.readBytes(&(msg._bytes[0]), msg._bytes.size());
       if (msg._wire == WIRE && msg.verifyChecksum()) 
          return msg;
+
+
    }
    return msg;
 }
@@ -205,8 +209,16 @@ void sendMessage(Command cmd) {
       Comm.write(&(msg._bytes[0]), msg._bytes.size());
       delay(COMM_DELAY);
       rcvMsg = receiveMessage(); 
-   } while (rcvMsg._cmd != Command::ACKNOWLEDGED);
+   } while (rcvMsg._cmd != Command::ACKNOWLEDGED); // TODO
 }
+
+
+// FORWARD DECLARATION
+bool checkPins();
+void resetPinCount();
+void readMsg(const Message &msg);
+void settingPins(Game gameType);
+
 
 void debugPrintln(String str){
   if (DEBUG) Log.println(str);
@@ -331,7 +343,7 @@ void showFallenPins(){
       State::get().pins[i] = 1;
       fallenCounter++;
       lightLed(i, true);
-      State::get().toMAG[i]++;
+      State::get().toMAG[i] = 1;
     } else lightLed(i, false);
   }
 
@@ -389,14 +401,14 @@ bool checkGaffe(){
       switch (msg._cmd)
       {
       case Command::GAFFE_CANCELED:
-        debugPrintln("No gutter");
+        debugPrintln("No gaffe");
         lightLed(LED_START, false);
         lightLed(LED_YELLOW, false);
         lightLed(LED_ERROR, false);
         return false;
       
       case Command::GAFFE_CONFIRMED:
-        debugPrintln("Gutter confirmed");
+        debugPrintln("gaffe confirmed");
         if (State::get().currentGameType == Game::FULL_GAME)
         {
           debugPrintln("FULL GAME: resetting pin count");
@@ -456,7 +468,7 @@ bool checkSettingPins() {
 bool checkPins() {
   if( Message msg = receiveMessage()) { 
     debugPrintln("CHECK PINS: RECEIVED MSG");
-    readMsg(); 
+    readMsg(msg); 
     }
   
     int countStandingPins = 0;
@@ -489,7 +501,7 @@ void readMsg(const Message& msg)
          if (respondToChangeStateCommand()) 
          {
             lightLed(LED_ERROR, true);
-            settingPins(currentGameType);
+            settingPins(State::get().currentGameType);
          }
          lightLed(LED_START, true);
          break;
@@ -498,36 +510,300 @@ void readMsg(const Message& msg)
       case Command::SETTING_PINS:
       {
          debugPrintln("READ MSG: SETTING_PINS");
-         isSettingPins = true;
-         settingPins(currentGameType);
-      
+         settingPins(State::get().currentGameType);
+         //TODO: isSettingPins solve
+         
          delay(100);
          break;
       }
 
-      case Command::CHECK_GUTTER:
+      case Command::CHECK_GAFFE:
       {
-         debugPrintln("READ MSG: CHECK_GUTTER");
+         debugPrintln("READ MSG: CHECK_GAFFE");
          lightLed(LED_START, false);
          lightLed(LED_ERROR, true);
-         gutterButtonPressed = true;
-         debugPrintln("The gutter button has been pressed");
-         isGutter = checkGutter();
+         debugPrintln("The gaffe button has been pressed");
+         State::get().isGaffe = checkGaffe();
          break;
       }
 
       case Command::END_GAME:
       {
          debugPrintln("READ MSG: END_GAME");
-         if(currentGameType == Game::PARTIAL_GAME) State::get().score = 0;
+         if(State::get().currentGameType == Game::PARTIAL_GAME) State::get().score = 0;
          startGame();
          break;
       }
     
       default:
       {
-         newState = false;
          break;
       }
     }
 }
+
+void settingPins(Game gameType) {
+  debugPrintln( " Setting Pins procedure" );
+  lightLed(LED_START, false);
+  debugPrintln(" Waiting for pins to come up ");
+  
+  
+  while(State::get().pinsUpCounter < PINS_UP_THRESHOLD) {
+    uint32_t pinsUpTimer = millis();
+    uint8_t upSensor = 0;
+    bool pinsUp = false;
+    
+    while (millis() < pinsUpTimer + PINS_UP_TIME) {
+      digitalWrite(ENGINE_RIGHT, HIGH);
+      //CHECKING IF THE ENGINES ARE BEING OVERLOADED
+      if (digitalRead(PXSENSOR_OVERLOAD) == HIGH) {   
+          State::get().overloadCounter++;
+        }
+
+      //CHECKING IF THE OVERLOAD HAS REACHED THE THRESHOLD
+      if (State::get().overloadCounter > OVERLOAD ) {
+        debugPrintln("OVERLOAD REACHED");
+        stopEngines(); 
+        fixOverload();
+        digitalWrite(ENGINE_RIGHT, HIGH);
+        }
+
+      //CHECKING IF THE PINS ARE KNOTTED UP
+      if (State::get().knotCounter > KNOT_THRESHOLD) {
+          stopEngines();
+          Serial.print("COME UNTIE MY KNOTS");
+          untieKnot();
+          State::get().overloadCounter = 0;
+          State::get().knotCounter = 0;
+        }
+      
+      //CHECKING IF THE PINS ARE UP
+      if (digitalRead(PXSENSOR_UP) == LOW) upSensor++;
+      if (upSensor > 3) {
+        stopEngines();
+        debugPrintln("PINS ARE UP");
+        pinsUp = true;
+        break;
+      }
+
+      //if pins are up, we set them down to the ground
+      if (pinsUp) {
+        stopEngines();
+        delay(PINS_WAIT_TIME);
+
+        if(gameType == Game::FULL_GAME) {
+          resetPinCount();
+          debugPrintln("LOWERING THE PINS");
+          lowerPins();
+        }
+
+        if(gameType == Game::PARTIAL_GAME) {
+          uint8_t MAGcounter = 0; // variable to store the number of magnetically locked pins
+          for (int i = 0; i < PINCOUNT; i++) {
+            MAGcounter += State::get().toMAG[i];
+          }
+
+          if (MAGcounter < PINCOUNT) {
+            for (int i = 0; i < PINCOUNT; i++) {
+              if (State::get().toMAG[i] > 0) {
+                digitalWrite(MAG[i], HIGH);
+              }
+            }
+            digitalWrite(ENGINE_RIGHT, HIGH);
+            delay(ENGINE_DOWN); 
+            for (int i = 0; i < PINCOUNT; i++) {
+              if (State::get().toMAG[i] > 0) {
+                digitalWrite(MAG[i], LOW);
+              }
+            }
+            digitalWrite(ENGINE_SLOW, HIGH);
+            delay(ENGINE_SLOWDOWN);
+            digitalWrite(ENGINE_SLOW, LOW);
+          }
+
+          else {
+            for (int i = 0; i < PINCOUNT; i++) {
+              digitalWrite(MAG[i], LOW);
+              State::get().toMAG[i] = 0; 
+              State::get().pins[i] = 0;
+            }
+            lightAllLed(false);
+            lowerPins();
+          }     
+    }
+  }
+
+uint32_t pinsSettleTime = millis();
+while (millis() < pinsSettleTime + TIME_TO_SETTLE_TRESHOLD){
+  if (digitalRead(PXSENSOR_DOWN) == LOW){
+    stopEngines();
+    if (!checkSettingPins()) settingPins(gameType);
+    lightLed(LED_START, true);
+    return;
+  }
+}
+    }
+  }
+}
+
+
+
+// ******************************  SETUP FUNCTION *******************************
+
+void setup() {
+
+  Log.begin(9600);
+  Comm.begin(57600);
+
+  startReceiving();
+  
+  //Setting PXSENSORS pins to INPUT
+  for(int i = 0; i < PINCOUNT; i++) pinMode(PXSENSOR[i], INPUT);
+  pinMode(PXSENSOR_UP, INPUT);
+  pinMode(PXSENSOR_DOWN, INPUT);
+  pinMode(PXSENSOR_OVERLOAD, INPUT);
+
+  pinMode(GATE_RAMP, INPUT);
+
+  //Setting locking MAGNET pins to OUTPUT
+
+  for(int i = 0; i < PINCOUNT; i++) pinMode(MAG[i], OUTPUT);
+
+  //Setting ENGINE control pins to OUTPUT
+  pinMode(ENGINE_RIGHT, OUTPUT);
+  pinMode(ENGINE_LEFT, OUTPUT);
+  pinMode(ENGINE_SLOW, OUTPUT);
+
+  //Setting LED pins to OUTPUT 
+  for(int i = 0; i < PINCOUNT; i++) pinMode(LED[i], OUTPUT);
+  pinMode(LED_START, OUTPUT);
+  pinMode(LED_ERROR, OUTPUT) ;
+
+  lightAllLed(false);
+
+  //Keeping ENGINE pins OFF
+  digitalWrite(ENGINE_LEFT, LOW);
+  digitalWrite(ENGINE_RIGHT, LOW);
+  digitalWrite(ENGINE_SLOW, LOW);
+
+  for (int i = 0; i < PINCOUNT; i++) digitalWrite(MAG[i], LOW);
+
+  State::get().currentGameType = Game::FULL_GAME;
+
+
+}
+void loop() {
+  State::get().rounds = 0;
+  checkLED();
+  
+  settingPins(Game::FULL_GAME);
+  lightLed(LED_ERROR,true);
+  lightLed(LED_START,true);
+  startGame();
+} 
+
+//Game logic function
+void game(Game gType)
+{
+  State::get().currentGameType = gType;
+  lightLed(LED_ERROR, false);
+  if (State::get().currentGameType == Game::FULL_GAME) 
+  {
+    debugPrintln("FULL GAME");
+    State::get().rounds = 0;
+    State::get().score = 0;
+  }
+  
+  if (State::get().currentGameType == Game::PARTIAL_GAME) 
+  {
+    debugPrintln("PARTIAL GAME");
+    State::get().rounds = 0; //score only zeores in full game, as partial game is a continuation of the full game.
+  }
+  
+  lightAllLed(false);
+
+  while (true)
+  {
+    State::get().isGaffe = false;
+    State::get().noneFallen = true;
+    State::get().isGaffe = false;
+    int gateSensorCounter = 0;
+    lightLed(LED_ERROR, false);
+    if (State::get().currentGameType == Game::FULL_GAME)
+    {
+      resetPinCount(); // pin count doesn not reset between rounds in partialgame 
+      lightAllLed(false);
+    }
+    lightLed(LED_START, true);
+
+    //Waiting for the ball to go through the gate, or command from the user
+    while (gateSensorCounter < 10 && !State::get().isGaffe) 
+    {
+      if (Message msg = receiveMessage()) readMsg(msg);
+      if (digitalRead(GATE_RAMP) == HIGH) gateSensorCounter++;
+    }
+
+    lightLed(LED_START, false);
+
+
+      State::get().rounds++;
+      debugPrintln("Waiting 4 seconds to count points");
+      uint32_t timeToCountPoints = millis();
+      while ( (millis() < timeToCountPoints + TIME_TO_COUNT_POINTS_TRESHOLD) && !State::get().isGaffe)
+      {
+        State::get().noneFallen = checkPins();
+        showFallenPins();
+      }
+
+      //if the ball didn't touch the sides, count points
+      if (!State::get().isGaffe) State::get().updatePoints();
+      sendMessage(State::get().currentGameType == Game::FULL_GAME ? Command::FULL_GAME : Command::PARTIAL_GAME);
+      
+      if (State::get().currentGameType == Game::FULL_GAME) { State::get().pins = {0,0,0,0,0,0,0,0,0};
+      
+
+      //if at least one pin has fallen, run settingPins function
+      if (!State::get().noneFallen) 
+      {
+        settingPins(State::get().currentGameType);
+      }
+    
+  }
+  
+}
+}
+
+void startGame() {
+  //game(Game::FULL_GAME);
+
+  checkLED();
+  if (State::get().currentGameType == Game::PARTIAL_GAME) settingPins(Game::FULL_GAME);
+  lightLed(LED_ERROR,true);
+  lightLed(LED_START,true);
+  debugPrintln("Project Ninepins - wired version");
+  while (true) 
+  {
+    Message msg = receiveMessage();
+    
+      switch(msg._cmd)
+      {
+      case Command::FULL_GAME:
+        debugPrintln("Starting Full Game");
+        game(Game::FULL_GAME);
+        break;
+
+      case Command::PARTIAL_GAME:
+        debugPrintln("Starting Partial Game");
+        game(Game::PARTIAL_GAME);
+        break;
+    
+      default:
+        break;
+      }
+    }
+    
+
+  }
+
+
+    

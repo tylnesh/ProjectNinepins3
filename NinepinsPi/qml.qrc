@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>CustomButton.qml</file>
+        <file>PinShape.qml</file>
+        <file>images/logo.png</file>
+        <file>GameWindow.qml</file>
+        <file>EditStatusWindow.qml</file>
+    </qresource>
+</RCC>

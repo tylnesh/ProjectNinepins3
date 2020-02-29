@@ -12,7 +12,7 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug",
-            "executable": "/home/tylnesh/ProjectNinepinsV2/new_version/Project Ninepins Arduino Sim/.pio/build/due/firmware.elf",
+            "executable": "/home/tylnesh/devel/ProjectNinepins3/Machine_Controller/.pio/build/due/firmware.elf",
             "toolchainBinDir": "/home/tylnesh/.platformio/packages/toolchain-gccarmnoneeabi/bin",
             "svdPath": "/home/tylnesh/.platformio/platforms/atmelsam/misc/svd/ATSAM3X8E.svd",
             "preLaunchTask": {
@@ -25,7 +25,7 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (skip Pre-Debug)",
-            "executable": "/home/tylnesh/ProjectNinepinsV2/new_version/Project Ninepins Arduino Sim/.pio/build/due/firmware.elf",
+            "executable": "/home/tylnesh/devel/ProjectNinepins3/Machine_Controller/.pio/build/due/firmware.elf",
             "toolchainBinDir": "/home/tylnesh/.platformio/packages/toolchain-gccarmnoneeabi/bin",
             "svdPath": "/home/tylnesh/.platformio/platforms/atmelsam/misc/svd/ATSAM3X8E.svd",
             "internalConsoleOptions": "openOnSessionStart"

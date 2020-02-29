@@ -6,16 +6,16 @@
         {
             "name": "Linux",
             "includePath": [
-                "/home/tylnesh/ProjectNinepinsV2/new_version/Project Ninepins Arduino Sim/include",
-                "/home/tylnesh/ProjectNinepinsV2/new_version/Project Ninepins Arduino Sim/src",
+                "/home/tylnesh/devel/ProjectNinepins3/Machine_Controller/include",
+                "/home/tylnesh/devel/ProjectNinepins3/Machine_Controller/src",
                 "/home/tylnesh/.platformio/packages/framework-arduinosam/libraries/__cores__/sam/SPI/src",
                 "/home/tylnesh/.platformio/packages/framework-arduinosam/cores/sam",
                 "/home/tylnesh/.platformio/packages/framework-arduinosam/system/sam/libsam",
                 "/home/tylnesh/.platformio/packages/framework-arduinosam/system/sam/CMSIS/CMSIS/Include",
                 "/home/tylnesh/.platformio/packages/framework-arduinosam/system/sam/CMSIS/Device/ATMEL",
                 "/home/tylnesh/.platformio/packages/framework-arduinosam/variants/arduino_due_x",
-                "/home/tylnesh/.platformio/lib/WiFiShield",
-                "/home/tylnesh/.platformio/lib/WiFi_ID870/src",
+                "/home/tylnesh/.platformio/lib/RF24_ID433",
+                "/home/tylnesh/.platformio/lib/RF24_ID433/utility",
                 "/home/tylnesh/.platformio/packages/framework-arduinosam/libraries/__cores__/sam/HID/src",
                 "/home/tylnesh/.platformio/packages/framework-arduinosam/libraries/__cores__/sam/Wire/src",
                 "/home/tylnesh/.platformio/packages/tool-unity",
@@ -24,16 +24,16 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "/home/tylnesh/ProjectNinepinsV2/new_version/Project Ninepins Arduino Sim/include",
-                    "/home/tylnesh/ProjectNinepinsV2/new_version/Project Ninepins Arduino Sim/src",
+                    "/home/tylnesh/devel/ProjectNinepins3/Machine_Controller/include",
+                    "/home/tylnesh/devel/ProjectNinepins3/Machine_Controller/src",
                     "/home/tylnesh/.platformio/packages/framework-arduinosam/libraries/__cores__/sam/SPI/src",
                     "/home/tylnesh/.platformio/packages/framework-arduinosam/cores/sam",
                     "/home/tylnesh/.platformio/packages/framework-arduinosam/system/sam/libsam",
                     "/home/tylnesh/.platformio/packages/framework-arduinosam/system/sam/CMSIS/CMSIS/Include",
                     "/home/tylnesh/.platformio/packages/framework-arduinosam/system/sam/CMSIS/Device/ATMEL",
                     "/home/tylnesh/.platformio/packages/framework-arduinosam/variants/arduino_due_x",
-                    "/home/tylnesh/.platformio/lib/WiFiShield",
-                    "/home/tylnesh/.platformio/lib/WiFi_ID870/src",
+                    "/home/tylnesh/.platformio/lib/RF24_ID433",
+                    "/home/tylnesh/.platformio/lib/RF24_ID433/utility",
                     "/home/tylnesh/.platformio/packages/framework-arduinosam/libraries/__cores__/sam/HID/src",
                     "/home/tylnesh/.platformio/packages/framework-arduinosam/libraries/__cores__/sam/Wire/src",
                     "/home/tylnesh/.platformio/packages/tool-unity",
@@ -41,7 +41,7 @@
                 ]
             },
             "defines": [
-                "PLATFORMIO=40100",
+                "PLATFORMIO=40201",
                 "__SAM3X8E__",
                 "ARDUINO_ARCH_SAM",
                 "ARDUINO_SAM_DUE",
@@ -57,7 +57,12 @@
             "intelliSenseMode": "clang-x64",
             "cStandard": "c11",
             "cppStandard": "c++11",
-            "compilerPath": "\"/home/tylnesh/.platformio/packages/toolchain-gccarmnoneeabi/bin/arm-none-eabi-gcc\" -mthumb -mcpu=cortex-m3"
+            "compilerPath": "/home/tylnesh/.platformio/packages/toolchain-gccarmnoneeabi/bin/arm-none-eabi-gcc",
+            "compilerArgs": [
+                "-mthumb",
+                "-mcpu=cortex-m3",
+                ""
+            ]
         }
     ],
     "version": 4

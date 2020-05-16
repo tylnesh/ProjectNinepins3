@@ -693,13 +693,22 @@ void setup() {
 
 }
 void loop() {
-  State::get().rounds = 0;
-  checkLED();
   
-  settingPins(Game::FULL_GAME);
-  lightLed(LED_ERROR,true);
-  lightLed(LED_START,true);
-  startGame();
+  delay(500);
+
+  //State::get().rounds = 0;
+  //sendMessage(Command::FULL_GAME);
+  startTransmitting();
+  Comm.println("picuuuus");
+  startReceiving();
+
+  delay(500);
+  //checkLED();
+  
+  //settingPins(Game::FULL_GAME);
+  //lightLed(LED_ERROR,true);
+  //lightLed(LED_START,true);
+  //startGame();
 } 
 
 //Game logic function

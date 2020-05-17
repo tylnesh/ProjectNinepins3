@@ -3,7 +3,8 @@
 
 CommProvider::CommProvider(QObject *parent) : QObject(parent)
 {
-    //serial->subscribeToUpdates([this] (const State &status) { updateProperties(status); }); // Dugi's CPP black magic
+    serial = new SerialComm();
+    serial->subscribeToUpdates([this] (const State &status) { updateProperties(status); }); // Dugi's CPP black magic
 }
 
 

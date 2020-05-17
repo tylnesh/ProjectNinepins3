@@ -44,7 +44,9 @@ public slots:
 private:
 
     void updateProperties(const State &status);
+
     SerialComm *serial;
+
     uint16_t _score;
     uint8_t _rounds;
     uint8_t _points;

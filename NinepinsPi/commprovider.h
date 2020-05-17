@@ -43,7 +43,6 @@ public slots:
 
 private:
 
-
     void updateProperties(const State &status);
     SerialComm *serial;
     uint16_t _score;

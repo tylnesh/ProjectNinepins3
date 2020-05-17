@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include "SerialComm.hpp"
+#include "commprovider.h"
 
 int main(int argc, char *argv[])
 {
@@ -8,7 +9,8 @@ int main(int argc, char *argv[])
 
 
     QGuiApplication app(argc, argv);
-    qmlRegisterType<SerialComm>("com.tylnesh.serialcomm", 1, 0, "SerialComm");
+    //qmlRegisterType<SerialComm>("com.tylnesh.serialcomm", 1, 0, "SerialComm");
+    qmlRegisterType<CommProvider>("com.tylnesh.commprovider", 1, 0, "CommProvider");
 
 
     QQmlApplicationEngine engine;

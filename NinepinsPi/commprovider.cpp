@@ -3,7 +3,12 @@
 
 CommProvider::CommProvider(QObject *parent) : QObject(parent)
 {
-    serial->subscribeToUpdates([this] (const State &status) { updateProperties(status); }); // Dugi's CPP black magic
+    //serial->subscribeToUpdates([this] (const State &status) { updateProperties(status); }); // Dugi's CPP black magic
+}
+
+
+void CommProvider::sendFullGameMessage(){
+   serial->sendMessage(Command::FULL_GAME);
 }
 
 
@@ -17,5 +22,46 @@ void CommProvider::updateProperties(const State &status){
    _score = status.score;
    _rounds = status.rounds;
    _points = status.currentPoints;
+
+}
+
+uint8_t CommProvider::points(){
+    return _points;
+}
+uint8_t CommProvider::rounds(){
+    return _rounds;
+}
+
+uint16_t CommProvider::score(){
+    return _score;
+}
+QByteArray CommProvider::pins(){
+    return _pins;
+}
+
+void CommProvider::setPoints(uint8_t points){
+    if (_points != points) {
+        _points = points;
+        emit pointsChanged();
+    }
+}
+
+void CommProvider::setRounds(uint8_t rounds){
+    if (_rounds != rounds) {
+        _rounds = rounds;
+        emit roundsChanged();
+    }
+}
+void CommProvider::setScore(uint16_t score){
+    if (_score != score) {
+        _score = score;
+        emit scoreChanged();
+    }
+}
+void CommProvider::setPins(QByteArray pins){
+    if (_pins != pins) {
+        _pins = pins;
+        emit pinsChanged();
+    }
 
 }

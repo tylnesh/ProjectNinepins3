@@ -1,7 +1,8 @@
 import QtQuick 2.9
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.12
-import com.tylnesh.serialcomm 1.0
+import com.tylnesh.commprovider 1.0
+//import com.tylnesh.serialcomm 1.0
 
 Window {
     id: mainWindow
@@ -10,8 +11,12 @@ Window {
     minimumHeight: 600
     title: qsTr("NinepinsPi")
 
-    SerialComm {
-    id: serial
+    //    SerialComm {
+    //      id: serial
+    //  }
+
+    CommProvider{
+        id: comm
     }
 
 
@@ -44,6 +49,7 @@ Window {
 
                 //txtsize: txtsize * (gameWindow.width / gameWindow.minimumWidth)
                onClicked: {
+                    comm.sendFullGameMessage()
                     gameWindow.type = fullgameButton.text
                     gameWindow.visible = true
                     mainWindow.visible = false

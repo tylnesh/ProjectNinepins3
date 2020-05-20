@@ -77,16 +77,6 @@ Window{
                     text: "Úprava"
                 }
 
-                CustomButton {
-                    id: gaffeButton
-                    Layout.alignment: Layout.Center
-                    bgcolor: "red"
-                    txtcolor: "white"
-                    onClicked: {
-
-                    }
-                    text: "Chyba"
-                }
 
                 CustomButton {
                     id: endButton

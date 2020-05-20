@@ -3,6 +3,7 @@ import QtQuick.Window 2.12
 import QtQuick.Layouts 1.12
 
 
+
 Window{
     property string type: "Plná hra"
     property int gameWidth : 800
@@ -16,6 +17,11 @@ Window{
 
     minimumWidth: 800
     minimumHeight: 600
+
+    EditStatusWindow {
+        id: editStatusWindow
+        visible: false
+    }
 
 
     Rectangle {
@@ -46,7 +52,7 @@ Window{
             id: roundsRect
             color: "lightgrey"
             width: labelRect.width / 2
-            height: labelRect.height / 2
+            height: labelRect.height
             anchors.right: pointsRect.left
             anchors.top: gameRect.top
 
@@ -83,6 +89,7 @@ Window{
             anchors.right: labelRect.left
             anchors.top: gameRect.top
 
+
             Text {
                 id: score
                 anchors.centerIn: parent
@@ -98,10 +105,6 @@ Window{
             width: gameRect.width * 1 / 3
             height: gameRect.height
             anchors.left: gameRect.left
-            color: "lightgrey"
-
-
-
 
 
             ColumnLayout {
@@ -124,6 +127,7 @@ Window{
                     bgcolor: "lightgrey"
                     txtcolor: "black"
                     onClicked: {
+                        editStatusWindow.visible = true;
 
                     }
                     text: "Úprava"
@@ -161,10 +165,8 @@ Window{
         height: 2/3* gameRect.height
         anchors.right: gameRect.right
         anchors.bottom: gameRect.bottom
+
         color: "white"
-
-
-
 
             GridLayout{
                 columns: 5
@@ -202,8 +204,6 @@ Window{
 
             }
         }
-
-
-
 }
+
 }

@@ -127,8 +127,8 @@ Window{
                     bgcolor: "lightgrey"
                     txtcolor: "black"
                     onClicked: {
-                        editStatusWindow.visible = true;
-
+                        editStatusWindow.visible = true
+                        gameWindow.visible = false
                     }
                     text: "Úprava"
                 }

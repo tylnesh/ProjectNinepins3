@@ -8,9 +8,6 @@ Window{
     property int gameWidth : 800
     property int gameHeight : 600
 
-
-
-
     signal changeOK()
     signal changeCancel()
 
@@ -75,20 +72,6 @@ Window{
 
                     }
                     text: "Úprava"
-                }
-
-
-                CustomButton {
-                    id: endButton
-                    Layout.alignment: Layout.Center
-                    bgcolor: "lightgrey"
-                    txtcolor: "black"
-                    onClicked: {
-                        mainWindow.visible = true
-                        gameWindow.visible = false
-
-                    }
-                    text: "Koniec"
                 }
             }
         }

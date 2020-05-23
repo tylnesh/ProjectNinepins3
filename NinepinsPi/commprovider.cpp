@@ -9,7 +9,11 @@ CommProvider::CommProvider(QObject *parent) : QObject(parent)
 
 
 void CommProvider::sendFullGameMessage(){
-   serial->sendMessage(Command::FULL_GAME);
+    serial->sendMessage(Command::FULL_GAME);
+}
+
+void CommProvider::sendSettingPinsMessage(){
+    serial->sendMessage(Command::SETTING_PINS);
 }
 
 
@@ -26,15 +30,15 @@ void CommProvider::updateProperties(const State &status){
 
 }
 
-uint8_t CommProvider::points(){
+int CommProvider::points(){
     return _points;
 }
-uint8_t CommProvider::rounds(){
+int CommProvider::rounds(){
     return _rounds;
 }
 
-uint16_t CommProvider::score(){
-    return _score;
+int CommProvider::score(){
+    return (int)_score;
 }
 QByteArray CommProvider::pins(){
     return _pins;

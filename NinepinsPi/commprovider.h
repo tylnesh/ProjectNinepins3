@@ -13,17 +13,18 @@ class CommProvider : public QObject
     Q_OBJECT
     Q_PROPERTY(uint8_t points READ points WRITE setPoints NOTIFY pointsChanged)
     Q_PROPERTY(uint8_t rounds READ rounds WRITE setRounds NOTIFY roundsChanged)
-    Q_PROPERTY(uint16_t score READ score WRITE setScore NOTIFY scoreChanged)
+    Q_PROPERTY(int score READ score WRITE setScore NOTIFY scoreChanged)
     Q_PROPERTY(QByteArray pins READ pins WRITE setPins NOTIFY pinsChanged)
 
 public:
     explicit CommProvider(QObject *parent = nullptr);
 
     Q_INVOKABLE void sendFullGameMessage();
+    Q_INVOKABLE void sendSettingPinsMessage();
 
-    uint8_t points();
-    uint8_t rounds();
-    uint16_t score();
+    int points();
+    int rounds();
+    int score();
     QByteArray pins();
 
     void setPoints(uint8_t points);
@@ -47,9 +48,9 @@ private:
 
     SerialComm *serial;
 
-    uint16_t _score;
-    uint8_t _rounds;
-    uint8_t _points;
+    uint16_t _score = 0;
+    uint8_t _rounds = 0;
+    uint8_t _points = 0;
     QByteArray _pins;
 
 

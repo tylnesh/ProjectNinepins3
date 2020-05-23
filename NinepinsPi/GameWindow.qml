@@ -1,13 +1,14 @@
 import QtQuick 2.0
 import QtQuick.Window 2.12
 import QtQuick.Layouts 1.12
+import com.tylnesh.commprovider 1.0
 
 
 
 Window{
     property string type: "Plná hra"
-    property int gameWidth : 800
-    property int gameHeight : 600
+    property int gameWidth : 1280
+    property int gameHeight : 800
 
     signal settingPins();
 
@@ -23,9 +24,11 @@ Window{
         visible: false
     }
 
+//    CommProvider{
+ //       id: comm
+  //  }
 
     Rectangle {
-
         id: gameRect
         width: parent.width
         height: parent.height
@@ -48,7 +51,6 @@ Window{
         }
 
         Rectangle{
-
             id: roundsRect
             color: "lightgrey"
             width: labelRect.width / 2
@@ -61,7 +63,7 @@ Window{
                 id: rounds
                 anchors.centerIn: parent
                 font.pointSize: 22
-                text: "000"
+                text: mainWindow.comm.rounds
             }
         }
 
@@ -77,7 +79,7 @@ Window{
                 id: points
                 anchors.centerIn: parent
                 font.pointSize: 22
-                text: "000"
+                text: mainWindow.comm.points
             }
         }
 
@@ -94,7 +96,7 @@ Window{
                 id: score
                 anchors.centerIn: parent
                 font.pointSize: 22
-                text: "000"
+                text: mainWindow.comm.score
             }
         }
 
@@ -128,7 +130,7 @@ Window{
                     txtcolor: "black"
                     onClicked: {
                         editStatusWindow.visible = true
-                        gameWindow.visible = false
+                        gameWindow.setVisible(false);
                     }
                     text: "Úprava"
                 }
@@ -204,6 +206,5 @@ Window{
 
             }
         }
-}
-
+    }
 }

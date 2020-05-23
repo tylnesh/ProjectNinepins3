@@ -5,17 +5,18 @@ import QtQuick.Layouts 1.12
 
 Window{
     property string type: "Úprava stavu"
-    property int gameWidth : 800
-    property int gameHeight : 600
+    property int gameWidth : 1280
+    property int gameHeight : 800
 
     signal changeOK()
     signal changeCancel()
+    signal settingPins()
 
     id: root
     width: gameWidth
     height: gameHeight
 
-    minimumWidth: 800
+    minimumWidth: 1000
     minimumHeight: 600
 
 
@@ -30,7 +31,7 @@ Window{
             id: labelRect
             anchors.right:  gameRect.right
             anchors.top: gameRect.top
-            width: 200
+            width: 250
             height: 100
             color: "green"
             Text {
@@ -41,6 +42,56 @@ Window{
                 text: root.type
             }
         }
+
+            Rectangle{
+                id: roundsRect
+                color: "lightgrey"
+                width: labelRect.width / 2
+                height: labelRect.height /2
+                anchors.right: pointsRect.left
+                anchors.top: gameRect.top
+
+                Text {
+                    id: rounds
+                    anchors.centerIn: parent
+                    font.pointSize: 22
+                    text: comm.rounds
+                }
+            }
+
+            Rectangle{
+                id: pointsRect
+                color: "lightgrey"
+                width: roundsRect.width
+                height: roundsRect.height
+                anchors.right: scoreRect.left
+                anchors.top: gameRect.top
+
+                Text {
+                    id: points
+                    anchors.centerIn: parent
+                    font.pointSize: 22
+                    text: comm.points
+                }
+            }
+
+            Rectangle{
+                id: scoreRect
+                color: "lightgrey"
+                width: pointsRect.width
+                height: pointsRect.height
+                anchors.right: labelRect.left
+                anchors.top: gameRect.top
+
+
+                Text {
+                    id: score
+                    anchors.centerIn: parent
+                    font.pointSize: 22
+                    text: comm.score
+                }
+            }
+
 
         Rectangle {
             id: buttonRect

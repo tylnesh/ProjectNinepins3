@@ -7,13 +7,10 @@ import com.tylnesh.commprovider 1.0
 Window {
     id: mainWindow
     visible: true
-    minimumWidth: 800
-    minimumHeight: 600
+    minimumWidth: 1280
+    minimumHeight: 800
     title: qsTr("NinepinsPi")
 
-    //    SerialComm {
-    //      id: serial
-    //  }
 
     CommProvider{
         id: comm
@@ -28,6 +25,7 @@ Window {
 
         onSettingPins: {
             console.log("Setting pins")
+            comm.sendSettingPinsMessage();
         }
     }
 
@@ -78,6 +76,16 @@ Window {
         anchors.left: buttonRect.right
         width: mainWindow.width - buttonRect.width
         height: mainWindow.height
+
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+                comm.score++
+                console.log(comm.score)
+
+            }
+        }
+
 
         Image {
             source: "images/logo"

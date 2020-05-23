@@ -60,7 +60,7 @@ Window{
                 id: roundsText
                 anchors.centerIn: parent
                 font.pointSize: 22
-                text: rounds
+                text: CommProviderApi.CommProvider.rounds
             }
         }
 
@@ -76,7 +76,7 @@ Window{
                 id: pointsText
                 anchors.centerIn: parent
                 font.pointSize: 22
-                text: points
+                text: CommProviderApi.CommProvider.points
             }
         }
 
@@ -173,31 +173,66 @@ Window{
 
                 Rectangle{width:1}
                 Rectangle{width:1;}
-                PinShape{id:pin1}
+                PinShape{
+                    id:pin1
+                    isDown: new Uint8Array(CommProviderApi.CommProvider.pins)[0]
+                }
                 Rectangle{width:1;}
                 Rectangle{width:1;}
 
                 Rectangle{width:1;}
-                PinShape{id:pin2}
+                PinShape{
+                    id:pin2
+                    isDown: new Uint8Array(CommProviderApi.CommProvider.pins)[1]
+                }
                 Rectangle{width:1;}
-                PinShape{id:pin3}
-                Rectangle{width:1;}
-
-                PinShape{id:pin4}
-                Rectangle{width:1;}
-                PinShape{id:pin5}
-                Rectangle{width:1;}
-                PinShape{id:pin6}
-
-                Rectangle{width:1;}
-                PinShape{id:pin7}
-                Rectangle{width:1;}
-                PinShape{id:pin8}
+                PinShape{
+                    id:pin3
+                    isDown: new Uint8Array(CommProviderApi.CommProvider.pins)[2]
+            }
                 Rectangle{width:1;}
 
+                PinShape{
+                    id:pin4
+                    isDown: new Uint8Array(CommProviderApi.CommProvider.pins)[3]
+                }
+                Rectangle{width:1;}
+                PinShape{
+                    id:pin5
+                    isDown: new Uint8Array(CommProviderApi.CommProvider.pins)[4]
+                }
+                Rectangle{width:1;}
+                PinShape{
+                    id:pin6
+                    isDown: new Uint8Array(CommProviderApi.CommProvider.pins)[5]
+                }
+
+                Rectangle{width:1;}
+                PinShape{
+                    id:pin7
+                    isDown: new Uint8Array(CommProviderApi.CommProvider.pins)[6]
+                }
+                Rectangle{width:1;}
+                PinShape{
+                    id:pin8
+                    isDown: new Uint8Array(CommProviderApi.CommProvider.pins)[7]
+                    }
+                Rectangle{width:1;}
+
                 Rectangle{width:1;}
                 Rectangle{width:1;}
-                PinShape{id:pin9}
+                PinShape{
+                    id:pin9
+                    isDown: new Uint8Array(CommProviderApi.CommProvider.pins)[8]
+                    onClicked: {
+                        if ((new Uint8Array(CommProviderApi.CommProvider.pins)[8]) % 2 ) new Uint8Array(CommProviderApi.CommProvider.pins)[8] = 0
+                        else new Uint8Array(CommProviderApi.CommProvider.pins)[8] = 1
+                        isDown = new Uint8Array(CommProviderApi.CommProvider.pins)[8]
+
+                        console.log(new Uint8Array(CommProviderApi.CommProvider.pins)[8])
+
+                    }
+                }
                 Rectangle{width:1;}
                 Rectangle{width:1;}
 

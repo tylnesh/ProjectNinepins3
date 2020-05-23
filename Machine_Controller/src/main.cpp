@@ -1,7 +1,11 @@
 #include <Arduino.h>
+#undef min
+#undef max
 #include <SPI.h>
 #include <stdint.h>
 #include <array>
+
+
 
 //SERIAL COMMINICATION
 UARTClass &Log =  Serial;
@@ -695,12 +699,20 @@ void setup() {
 void loop() {
   
   delay(500);
+  
+  
+    Message msg = receiveMessage();
+    
+    if (msg._cmd == Command::SETTING_PINS) debugPrintln("Setting Pins");
+        if (msg._cmd == Command::FULL_GAME) debugPrintln("fullgame");
+
+
+
 
   //State::get().rounds = 0;
   //sendMessage(Command::FULL_GAME);
-  startTransmitting();
-  Comm.println("picuuuus");
-  startReceiving();
+  //startTransmitting();
+  //startReceiving();
 
   delay(500);
   //checkLED();

@@ -22,7 +22,7 @@ SerialComm::SerialComm(QObject *parent)
 {
 
     _serial = new QSerialPort();
-    _serial->setPortName("/dev/ttyUSB0");
+    _serial->setPortName("/dev/ttyUSB1");
     if (_serial->open(QIODevice::ReadWrite))
     {
         _serial->setBaudRate(QSerialPort::Baud57600);

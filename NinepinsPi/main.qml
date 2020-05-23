@@ -10,7 +10,7 @@ Window {
     minimumHeight: 800
     title: qsTr("NinepinsPi")
 
-    property int score : CommProviderApi.CommProvider.score
+    //property int score : CommProviderApi.CommProvider.score
 
 
     GameWindow {
@@ -20,7 +20,7 @@ Window {
 
         onSettingPins: {
             console.log("Setting pins")
-            CommProviderApi.sendSettingPinsMessage();
+            CommProviderApi.CommProvider.sendSettingPinsMessage();
         }
     }
 
@@ -75,12 +75,13 @@ Window {
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                //comm.score++
-                //console.log(comm.score)
 
-                CommProviderApi.CommProvider.score++
+                var arr = new Uint8Array(CommProviderApi.CommProvider.pins)
 
                 console.log(CommProviderApi.CommProvider.score)
+                console.log(arr[CommProviderApi.CommProvider.score]);
+
+                CommProviderApi.CommProvider.score++
 
             }
         }

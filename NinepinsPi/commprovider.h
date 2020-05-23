@@ -48,7 +48,7 @@ private:
 
     SerialComm *serial;
 
-    uint16_t _score = 0;
+    uint16_t _score = 50;
     uint8_t _rounds = 0;
     uint8_t _points = 0;
     QByteArray _pins;

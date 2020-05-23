@@ -1,5 +1,6 @@
 #include "commprovider.h"
 #include "SerialComm.hpp"
+#include <QDebug>
 
 CommProvider::CommProvider(QObject *parent) : QObject(parent)
 {
@@ -38,7 +39,7 @@ int CommProvider::rounds(){
 }
 
 int CommProvider::score(){
-    return (int)_score;
+    return (int) _score;
 }
 QByteArray CommProvider::pins(){
     return _pins;
@@ -47,6 +48,7 @@ QByteArray CommProvider::pins(){
 void CommProvider::setPoints(uint8_t points){
     if (_points != points) {
         _points = points;
+            qDebug() << "setting points with setPoints function";
         emit pointsChanged();
     }
 }

@@ -1,8 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.12
-import com.tylnesh.commprovider 1.0
-//import com.tylnesh.serialcomm 1.0
+import com.tylnesh.commprovider 1.0 as CommProviderApi
 
 Window {
     id: mainWindow
@@ -11,11 +10,7 @@ Window {
     minimumHeight: 800
     title: qsTr("NinepinsPi")
 
-
-    CommProvider{
-        id: comm
-    }
-
+    property int score : CommProviderApi.CommProvider.score
 
 
     GameWindow {
@@ -25,7 +20,7 @@ Window {
 
         onSettingPins: {
             console.log("Setting pins")
-            comm.sendSettingPinsMessage();
+            CommProviderApi.sendSettingPinsMessage();
         }
     }
 
@@ -47,7 +42,7 @@ Window {
 
                 //txtsize: txtsize * (gameWindow.width / gameWindow.minimumWidth)
                onClicked: {
-                    comm.sendFullGameMessage()
+                    CommProviderApi.CommProvider.sendFullGameMessage()
                     gameWindow.type = fullgameButton.text
                     gameWindow.visible = true
                     mainWindow.visible = false
@@ -80,8 +75,12 @@ Window {
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                comm.score++
-                console.log(comm.score)
+                //comm.score++
+                //console.log(comm.score)
+
+                CommProviderApi.CommProvider.score++
+
+                console.log(CommProviderApi.CommProvider.score)
 
             }
         }

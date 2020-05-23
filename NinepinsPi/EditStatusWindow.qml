@@ -55,7 +55,7 @@ Window{
                     id: rounds
                     anchors.centerIn: parent
                     font.pointSize: 22
-                    text: comm.rounds
+                    //text: comm.rounds
                 }
             }
 
@@ -71,7 +71,7 @@ Window{
                     id: points
                     anchors.centerIn: parent
                     font.pointSize: 22
-                    text: comm.points
+                    //text: comm.points
                 }
             }
 
@@ -88,7 +88,7 @@ Window{
                     id: score
                     anchors.centerIn: parent
                     font.pointSize: 22
-                    text: comm.score
+                    //text: comm.score
                 }
             }
 

@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Window 2.12
 import QtQuick.Layouts 1.12
-import com.tylnesh.commprovider 1.0
+import com.tylnesh.commprovider 1.0 as CommProviderApi
 
 
 
@@ -24,9 +24,6 @@ Window{
         visible: false
     }
 
-//    CommProvider{
- //       id: comm
-  //  }
 
     Rectangle {
         id: gameRect
@@ -60,10 +57,10 @@ Window{
 
 
             Text {
-                id: rounds
+                id: roundsText
                 anchors.centerIn: parent
                 font.pointSize: 22
-                text: mainWindow.comm.rounds
+                text: rounds
             }
         }
 
@@ -76,10 +73,10 @@ Window{
             anchors.top: gameRect.top
 
             Text {
-                id: points
+                id: pointsText
                 anchors.centerIn: parent
                 font.pointSize: 22
-                text: mainWindow.comm.points
+                text: points
             }
         }
 
@@ -93,10 +90,10 @@ Window{
 
 
             Text {
-                id: score
+                id: scoreText
                 anchors.centerIn: parent
                 font.pointSize: 22
-                text: mainWindow.comm.score
+                text: CommProviderApi.CommProvider.score
             }
         }
 

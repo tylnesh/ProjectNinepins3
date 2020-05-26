@@ -37,9 +37,9 @@ constexpr int ENGINE_SLOW = 27;
 //LED PINS
 constexpr int BRIGHTNESS = 80;
 static std::array<int, 12> LED = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
-constexpr int LED_START = PINCOUNT + 1;
-constexpr int LED_ERROR = PINCOUNT + 2;
-constexpr int LED_YELLOW = PINCOUNT + 3;
+constexpr int LED_START = PINCOUNT + 0;
+constexpr int LED_ERROR = PINCOUNT + 1;
+constexpr int LED_YELLOW = PINCOUNT + 2;
 
 //ENGINE SETTINGS
 constexpr int OVERLOAD = 300;
@@ -551,17 +551,22 @@ void settingPins(Game gameType) {
   lightLed(LED_START, false);
   debugPrintln(" Waiting for pins to come up ");
   
+
+  State::get().pinsUpCounter = 0;
+  
   
   while(State::get().pinsUpCounter < PINS_UP_THRESHOLD) {
+    debugPrintln("Starting pinsUpCounter");
     uint32_t pinsUpTimer = millis();
     uint8_t upSensor = 0;
     bool pinsUp = false;
     
-    while (millis() < pinsUpTimer + PINS_UP_TIME) {
+    while (millis() < (pinsUpTimer + PINS_UP_TIME)) {
       digitalWrite(ENGINE_RIGHT, HIGH);
       //CHECKING IF THE ENGINES ARE BEING OVERLOADED
       if (digitalRead(PXSENSOR_OVERLOAD) == HIGH) {   
           State::get().overloadCounter++;
+          debugPrintln("OVERLOAD");
         }
 
       //CHECKING IF THE OVERLOAD HAS REACHED THE THRESHOLD
@@ -589,6 +594,7 @@ void settingPins(Game gameType) {
         pinsUp = true;
         break;
       }
+    }
 
       //if pins are up, we set them down to the ground
       if (pinsUp) {
@@ -648,7 +654,7 @@ while (millis() < pinsSettleTime + TIME_TO_SETTLE_TRESHOLD){
 }
     }
   }
-}
+
 
 
 
@@ -698,29 +704,11 @@ void setup() {
 }
 void loop() {
   
-  delay(500);
   
-  
-    Message msg = receiveMessage();
-    
-    if (msg._cmd == Command::SETTING_PINS) debugPrintln("Setting Pins");
-        if (msg._cmd == Command::FULL_GAME) debugPrintln("fullgame");
-
-
-
-
-  //State::get().rounds = 0;
-  //sendMessage(Command::FULL_GAME);
-  //startTransmitting();
-  //startReceiving();
-
-  delay(500);
-  //checkLED();
-  
-  //settingPins(Game::FULL_GAME);
-  //lightLed(LED_ERROR,true);
-  //lightLed(LED_START,true);
-  //startGame();
+  settingPins(Game::FULL_GAME);
+  lightLed(LED_ERROR,true);
+  lightLed(LED_START,true);
+  startGame();
 } 
 
 //Game logic function
@@ -805,19 +793,16 @@ void startGame() {
   while (true) 
   {
     Message msg = receiveMessage();
-    
       switch(msg._cmd)
       {
       case Command::FULL_GAME:
         debugPrintln("Starting Full Game");
         game(Game::FULL_GAME);
         break;
-
       case Command::PARTIAL_GAME:
         debugPrintln("Starting Partial Game");
         game(Game::PARTIAL_GAME);
         break;
-    
       default:
         break;
       }

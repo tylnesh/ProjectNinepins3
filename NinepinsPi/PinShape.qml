@@ -1,6 +1,7 @@
 import QtQuick 2.0
 
     Rectangle {
+
         id: root
         property color bgcolor: "lightgrey"
         property color downcolor: "yellow"

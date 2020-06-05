@@ -228,9 +228,6 @@ Window{
                         if ((new Uint8Array(CommProviderApi.CommProvider.pins)[8]) % 2 ) new Uint8Array(CommProviderApi.CommProvider.pins)[8] = 0
                         else new Uint8Array(CommProviderApi.CommProvider.pins)[8] = 1
                         isDown = new Uint8Array(CommProviderApi.CommProvider.pins)[8]
-
-                        console.log(new Uint8Array(CommProviderApi.CommProvider.pins)[8])
-
                     }
                 }
                 Rectangle{width:1;}

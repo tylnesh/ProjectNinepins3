@@ -36,8 +36,8 @@ void CommProvider::updateProperties(const State &status){
    _score = status.score;
    _rounds = status.rounds;
    _points = status.currentPoints;
-
 }
+
 
 int CommProvider::points(){
     return (int) _points;

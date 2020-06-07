@@ -82,7 +82,7 @@ Window {
                 id: points
                 anchors.centerIn: parent
                 font.pointSize: 22
-                text: CommProviderApi.CommProvider.points = CommProviderApi.CommProvider.
+                text: CommProviderApi.CommProvider.points
             }
         }
 

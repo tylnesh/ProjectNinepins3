@@ -41,7 +41,7 @@
                 ]
             },
             "defines": [
-                "PLATFORMIO=40303",
+                "PLATFORMIO=40304",
                 "__SAM3X8E__",
                 "ARDUINO_ARCH_SAM",
                 "ARDUINO_SAM_DUE",

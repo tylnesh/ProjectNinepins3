@@ -154,7 +154,7 @@ private:
     State _state;
     QSerialPort *_serial;
     QByteArray _serialReadData;
-
+    Command _currentCmd;
     void readMessage();
 
 };

@@ -23,6 +23,7 @@ SerialComm::SerialComm(QObject *parent)
 
     _serial = new QSerialPort();
     _serial->setPortName("/dev/ttyUSB1");
+   // _serial->setPortName("/dev/pts/1");
     if (_serial->open(QIODevice::ReadWrite))
     {
         _serial->setBaudRate(QSerialPort::Baud57600);
@@ -124,7 +125,7 @@ void SerialComm::readMessage() {
     Message msg;
     // TODO: read it
     if (_serialReadData.length() == uint8_t(msg._bytes.size())) {
-        for (int i = 0; i<messageLength; i++){
+        for (int i = 0; i < messageLength; i++){
             msg._bytes[i] = _serialReadData.at(i);
             qDebug() << _serialReadData.at(i);
         }
@@ -132,11 +133,11 @@ void SerialComm::readMessage() {
     }
     _serialReadData = "";
 
-
-
     if (msg.verifyChecksum()) {
         _state = msg;
+        _currentCmd = msg._cmd;
         _updateCallback(_state);
+        if (msg._cmd == Command::REQ_REPEAT)
     } else {
         sendMessage(Command::REQ_REPEAT);
     }
@@ -148,19 +149,16 @@ void SerialComm::sendMessage(Command command) {
     // TODO: send it
 
     Message rcvMsg;
-    //do {
 
        qDebug() <<"Transmitting receission!";
        QByteArray serialWriteData;
 
        for (unsigned long i = 0; i<msg._bytes.size(); i++){
            serialWriteData.append(msg._bytes.at(i));
-
        }
 
        _serial->write(serialWriteData, serialWriteData.length());
-       //rcvMsg = receiveMessage();
-   //} while (rcvMsg._cmd != Command::ACKNOWLEDGED);
+
 
 
 }

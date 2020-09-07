@@ -190,30 +190,33 @@ Message::Message(const State& state, Command cmd) {
    _checksum = checksum();
 }
 
+void sendMessage(Command cmd);
+
 Message receiveMessage() {
    startReceiving();
    Message msg;
    while(Comm.available()){
       debugPrintln("Receiving transmission!");
       Comm.readBytes(&(msg._bytes[0]), msg._bytes.size());
-      if (msg._wire == WIRE && msg.verifyChecksum()) 
-         return msg;
-
-
+      if (msg._wire == WIRE && msg.verifyChecksum()) {
+         //sendMessage(Command::ACKNOWLEDGED);
+         return msg; 
+      }
    }
+   msg._cmd = Command::CHECKSUM_NOT_MATCH;
    return msg;
 }
 
 void sendMessage(Command cmd) {  
    Message msg(State::get(), cmd);
    Message rcvMsg;
-   do {
+  // do {
       startTransmitting();
       debugPrintln("Transmitting receission!");
       Comm.write(&(msg._bytes[0]), msg._bytes.size());
       delay(COMM_DELAY);
-      rcvMsg = receiveMessage(); 
-   } while (rcvMsg._cmd != Command::ACKNOWLEDGED); // TODO
+      //rcvMsg = receiveMessage(); 
+   //} while (rcvMsg._cmd != Command::ACKNOWLEDGED); // TODO
 }
 
 
@@ -708,7 +711,48 @@ void loop() {
   settingPins(Game::FULL_GAME);
   lightLed(LED_ERROR,true);
   lightLed(LED_START,true);
-  startGame();
+  State::get().currentGameType = Game::FULL_GAME;
+
+  while(true)
+  {
+   //if(Message msg = receiveMessage()){
+   //delay(200);
+   //if (msg._cmd != Command::CHECKSUM_NOT_MATCH)
+   
+   for (int i = 0; i<9; i++) {
+   State::get().pins[i] = i%2;
+   }
+
+   sendMessage(Command::FULL_GAME);
+   delay(1000);
+ for (int i = 0; i<9; i++) {
+   State::get().pins[i] = (i+1) %2;
+   }
+
+   sendMessage(Command::PARTIAL_GAME);
+   delay(1000);
+
+    for (int i = 0; i<9; i++) {
+   State::get().pins[i] = i%2;
+   }
+   sendMessage(Command::SETTING_PINS);
+   delay(1000);
+    for (int i = 0; i<9; i++) {
+   State::get().pins[i] = (i+1) %2;
+   }
+   sendMessage(Command::END_GAME);
+   delay(1000);
+    for (int i = 0; i<9; i++) {
+   State::get().pins[i] = i%2;
+   }
+   sendMessage(Command::CHECKSUM_NOT_MATCH);
+   delay(1000);
+
+   
+
+  }
+
+  //startGame();
 } 
 
 //Game logic function

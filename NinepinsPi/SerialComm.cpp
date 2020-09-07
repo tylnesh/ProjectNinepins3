@@ -22,7 +22,7 @@ SerialComm::SerialComm(QObject *parent)
 {
 
     _serial = new QSerialPort();
-    _serial->setPortName("/dev/ttyUSB1");
+    _serial->setPortName("/dev/ttyUSB0");
    // _serial->setPortName("/dev/pts/1");
     if (_serial->open(QIODevice::ReadWrite))
     {
@@ -127,18 +127,28 @@ void SerialComm::readMessage() {
     if (_serialReadData.length() == uint8_t(msg._bytes.size())) {
         for (int i = 0; i < messageLength; i++){
             msg._bytes[i] = _serialReadData.at(i);
-            qDebug() << _serialReadData.at(i);
+           // qDebug() << _serialReadData.at(i);
         }
-
     }
+
     _serialReadData = "";
 
     if (msg.verifyChecksum()) {
         _state = msg;
         _currentCmd = msg._cmd;
         _updateCallback(_state);
-        if (msg._cmd == Command::REQ_REPEAT)
+
+
+        if (msg._cmd == Command::FULL_GAME) qDebug() << "FULL_GAME command received";
+        if (msg._cmd == Command::PARTIAL_GAME) qDebug() << "PARTIAL_GAME received";
+        if (msg._cmd == Command::SETTING_PINS) qDebug() << "SETTING_PINS reveived";
+        if (msg._cmd == Command::END_GAME) qDebug() << "END_GAME received";
+        if (msg._cmd == Command::CHECKSUM_NOT_MATCH) qDebug() << "CHECKSUM_NOT_MATCH received";
+
+
+        //if (msg._cmd == Command::ACKNOWLEDGED) qDebug() << "Received an ACK";
     } else {
+        qDebug() << "Requesting repeat";
         sendMessage(Command::REQ_REPEAT);
     }
 }
@@ -153,7 +163,7 @@ void SerialComm::sendMessage(Command command) {
        qDebug() <<"Transmitting receission!";
        QByteArray serialWriteData;
 
-       for (unsigned long i = 0; i<msg._bytes.size(); i++){
+       for (unsigned long i = 0; i < msg._bytes.size(); i++){
            serialWriteData.append(msg._bytes.at(i));
        }
 

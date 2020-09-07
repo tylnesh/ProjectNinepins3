@@ -22,6 +22,11 @@ Window {
             console.log("Setting pins")
             CommProviderApi.CommProvider.sendSettingPinsMessage();
         }
+
+        onEndGame: {
+            console.log("Ending game")
+            CommProviderApi.CommProvider.sendEndGameMessage();
+        }
     }
 
     Rectangle {

@@ -11,6 +11,7 @@ Window{
     property int gameHeight : 800
 
     signal settingPins();
+    signal endGame();
 
     id: root
     width: gameWidth
@@ -151,6 +152,7 @@ Window{
                     onClicked: {
                         mainWindow.visible = true
                         gameWindow.visible = false
+                        root.endGame()
 
                     }
                     text: "Koniec"

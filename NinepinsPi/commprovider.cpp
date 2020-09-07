@@ -8,10 +8,10 @@ CommProvider::CommProvider(QObject *parent) : QObject(parent)
     serial->subscribeToUpdates([this] (const State &status) { updateProperties(status); }); // Dugi's CPP black magic
 
 
-    for (int i = 0; i<9; i++) {
-        int c = i%2;
-        _pins.append(c);
-    }
+    //for (int i = 0; i<9; i++) {
+    //    int c = i%2;
+    //    _pins.append(c);
+   // }
 
 
 }
@@ -23,6 +23,11 @@ void CommProvider::sendFullGameMessage(){
 
 void CommProvider::sendSettingPinsMessage(){
     serial->sendMessage(Command::SETTING_PINS);
+}
+
+void CommProvider::sendEndGameMessage(){
+    serial->sendMessage(Command::END_GAME);
+
 }
 
 

@@ -10,25 +10,6 @@ Window {
     minimumHeight: 800
     title: qsTr("NinepinsPi")
 
-    //property int score : CommProviderApi.CommProvider.score
-
-
-    GameWindow {
-    id: gameWindow
-    gameWidth: mainWindow.width
-    gameHeight: mainWindow.height
-
-        onSettingPins: {
-            console.log("Setting pins")
-            CommProviderApi.CommProvider.sendSettingPinsMessage();
-        }
-
-        onEndGame: {
-            console.log("Ending game")
-            CommProviderApi.CommProvider.sendEndGameMessage();
-        }
-    }
-
     Rectangle {
         id: buttonRect
         width: mainWindow.width * 1 / 3
@@ -38,20 +19,19 @@ Window {
 
         ColumnLayout {
             anchors.centerIn: buttonRect
-            CustomButton {
 
+            CustomButton {
                 id: fullgameButton
                 Layout.alignment: Layout.Center
+                Layout.margins: 5
+
                 bgcolor: "green"
                 txtcolor: "white"
-
-                //txtsize: txtsize * (gameWindow.width / gameWindow.minimumWidth)
-               onClicked: {
+                onClicked: {
                     CommProviderApi.CommProvider.sendFullGameMessage()
                     gameWindow.type = fullgameButton.text
                     gameWindow.visible = true
                     mainWindow.visible = false
-
                 }
                 text: "Plná hra"
             }
@@ -59,6 +39,8 @@ Window {
             CustomButton {
                 id: partialgameButton
                 Layout.alignment: Layout.Center
+                Layout.margins: 5
+
                 bgcolor: "green"
                 txtcolor: "white"
                 onClicked: {
@@ -68,34 +50,74 @@ Window {
                 }
                 text: "Dorážka"
             }
+
+            CustomButton {
+                id: practicemodeButton
+                Layout.alignment: Layout.Center
+                Layout.margins: 5
+
+                bgcolor: "green"
+                txtcolor: "white"
+                onClicked: {
+                    CommProviderApi.CommProvider.sendPracticemodeMessage()
+                    gameWindow.type = practicemodeButton.text
+                    gameWindow.visible = true
+                    mainWindow.visible = false
+                }
+                text: "Tréning"
+            }
+
+            CustomButton {
+                id: shutdownButton
+                Layout.alignment: Layout.Center
+                Layout.margins: 80
+
+                bgcolor: "red"
+                txtcolor: "white"
+                onClicked: {
+                    shutdown() //TODO: Implement shutdown - for debug purposes close window, for production shut down raspi
+                }
+                text: "Vypnúť"
+            }
         }
     }
 
+
+    // Right side of the main menu window - just the logo.
     Rectangle {
         id: logoRect
         anchors.left: buttonRect.right
         width: mainWindow.width - buttonRect.width
         height: mainWindow.height
 
-        MouseArea{
-            anchors.fill: parent
-            onClicked: {
-
-                var arr = new Uint8Array(CommProviderApi.CommProvider.pins)
-
-                console.log(CommProviderApi.CommProvider.score)
-                console.log(arr[CommProviderApi.CommProvider.score]);
-
-                CommProviderApi.CommProvider.score++
-
-            }
-        }
-
-
         Image {
-            source: "images/logo"
             id: image1
+            source: "images/logo"
             anchors.centerIn: logoRect
         }
     }
+
+
+
+    // Game window
+    GameWindow {
+        id: gameWindow
+        gameWidth: mainWindow.width
+        gameHeight: mainWindow.height
+
+        onSettingPins: {
+            console.log("Setting pins")
+            CommProviderApi.CommProvider.sendSettingPinsMessage()
+        }
+
+        onEndGame: {
+            console.log("Ending game")
+            CommProviderApi.CommProvider.sendEndGameMessage()
+        }
+    }
+
+
+
+
+
 }

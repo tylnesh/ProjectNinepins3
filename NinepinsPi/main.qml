@@ -59,7 +59,10 @@ Window {
                 bgcolor: "green"
                 txtcolor: "white"
                 onClicked: {
-                    CommProviderApi.CommProvider.sendPracticemodeMessage()
+                    try {
+                        CommProviderApi.CommProvider.sendPracticemodeMessage() // TODO: Implement sendPracticemodeMessage()
+                    } catch (error) {}
+
                     gameWindow.type = practicemodeButton.text
                     gameWindow.visible = true
                     mainWindow.visible = false

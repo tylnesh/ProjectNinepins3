@@ -5,9 +5,10 @@ import QtQuick 2.0
         id: root
         property color bgcolor: "lightgrey"
         property color downcolor: "yellow"
+        property int pinNum
         property int pinWidth: 40
         property int pinHeight: pinWidth
-        property bool isDown: false;
+        property bool isDown: false
 
         signal clicked();
 

@@ -25,80 +25,17 @@ Window{
         visible: false
     }
 
-
     Rectangle {
         id: gameRect
         width: parent.width
         height: parent.height
         color: "white"
 
-        Rectangle {
-            id: labelRect
-            anchors.right:  gameRect.right
-            anchors.top: gameRect.top
-            width: 200
-            height: 100
-            color: "green"
-            Text {
-                id: labelText
-                anchors.centerIn: parent
-                color: "white"
-                font.pointSize: 22
-                text: root.type
-            }
+        ScorePanel{
+            id: scorePanel
+            anchors.top: parent.top
+            anchors.right: parent.right
         }
-
-        Rectangle{
-            id: roundsRect
-            color: "lightgrey"
-            width: labelRect.width / 2
-            height: labelRect.height
-            anchors.right: pointsRect.left
-            anchors.top: gameRect.top
-
-
-            Text {
-                id: roundsText
-                anchors.centerIn: parent
-                font.pointSize: 22
-                text: CommProviderApi.CommProvider.rounds
-            }
-        }
-
-        Rectangle{
-            id: pointsRect
-            color: "lightgrey"
-            width: roundsRect.width
-            height: roundsRect.height
-            anchors.right: scoreRect.left
-            anchors.top: gameRect.top
-
-            Text {
-                id: pointsText
-                anchors.centerIn: parent
-                font.pointSize: 22
-                text: CommProviderApi.CommProvider.points
-            }
-        }
-
-        Rectangle{
-            id: scoreRect
-            color: "lightgrey"
-            width: pointsRect.width
-            height: pointsRect.height
-            anchors.right: labelRect.left
-            anchors.top: gameRect.top
-
-
-            Text {
-                id: scoreText
-                anchors.centerIn: parent
-                font.pointSize: 22
-                text: CommProviderApi.CommProvider.score
-            }
-        }
-
-
 
         Rectangle {
             id: buttonRect
@@ -106,11 +43,10 @@ Window{
             height: gameRect.height
             anchors.left: gameRect.left
 
-
             ColumnLayout {
                 anchors.centerIn: buttonRect
-                CustomButton {
 
+                CustomButton {
                     id: settingPinsButton
                     Layout.alignment: Layout.Center
                     bgcolor: "lightgrey"
@@ -160,82 +96,6 @@ Window{
             }
         }
 
-        Rectangle{
-        id: pinRectangle
-        width: 2/3* gameRect.width
-        height: 2/3* gameRect.height
-        anchors.right: gameRect.right
-        anchors.bottom: gameRect.bottom
-
-        color: "white"
-
-            GridLayout{
-                columns: 5
-                anchors.centerIn: pinRectangle
-
-                Rectangle{width:1}
-                Rectangle{width:1;}
-                PinShape{
-                    id:pin1
-                    isDown: new Uint8Array(CommProviderApi.CommProvider.pins)[0]
-                }
-                Rectangle{width:1;}
-                Rectangle{width:1;}
-
-                Rectangle{width:1;}
-                PinShape{
-                    id:pin2
-                    isDown: new Uint8Array(CommProviderApi.CommProvider.pins)[1]
-                }
-                Rectangle{width:1;}
-                PinShape{
-                    id:pin3
-                    isDown: new Uint8Array(CommProviderApi.CommProvider.pins)[2]
-            }
-                Rectangle{width:1;}
-
-                PinShape{
-                    id:pin4
-                    isDown: new Uint8Array(CommProviderApi.CommProvider.pins)[3]
-                }
-                Rectangle{width:1;}
-                PinShape{
-                    id:pin5
-                    isDown: new Uint8Array(CommProviderApi.CommProvider.pins)[4]
-                }
-                Rectangle{width:1;}
-                PinShape{
-                    id:pin6
-                    isDown: new Uint8Array(CommProviderApi.CommProvider.pins)[5]
-                }
-
-                Rectangle{width:1;}
-                PinShape{
-                    id:pin7
-                    isDown: new Uint8Array(CommProviderApi.CommProvider.pins)[6]
-                }
-                Rectangle{width:1;}
-                PinShape{
-                    id:pin8
-                    isDown: new Uint8Array(CommProviderApi.CommProvider.pins)[7]
-                    }
-                Rectangle{width:1;}
-
-                Rectangle{width:1;}
-                Rectangle{width:1;}
-                PinShape{
-                    id:pin9
-                    isDown: new Uint8Array(CommProviderApi.CommProvider.pins)[8]
-                    onClicked: {
-                        if ((new Uint8Array(CommProviderApi.CommProvider.pins)[8]) % 2 ) new Uint8Array(CommProviderApi.CommProvider.pins)[8] = 0
-                        else new Uint8Array(CommProviderApi.CommProvider.pins)[8] = 1
-                        isDown = new Uint8Array(CommProviderApi.CommProvider.pins)[8]
-                    }
-                }
-                Rectangle{width:1;}
-                Rectangle{width:1;}
-
-            }
-        }
+        PinRectangle{}
     }
 }

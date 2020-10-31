@@ -6,5 +6,7 @@
         <file>images/logo.png</file>
         <file>GameWindow.qml</file>
         <file>EditStatusWindow.qml</file>
+        <file>ScorePanel.qml</file>
+        <file>PinRectangle.qml</file>
     </qresource>
 </RCC>

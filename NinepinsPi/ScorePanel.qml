@@ -5,12 +5,15 @@ import QtQuick.Layouts 1.12
 import com.tylnesh.commprovider 1.0 as CommProviderApi
 
 Item {
+    property int panelHeight:  isEditable ? 50 : 100
+    property bool isEditable: false
+
     Rectangle {
         id: labelRect
         anchors.right:  parent.right
         anchors.top: parent.top
         width: 200
-        height: 100
+        height: panelHeight
         color: "green"
         Text {
             id: labelText

@@ -49,6 +49,8 @@ Window{
                 CustomButton {
                     id: settingPinsButton
                     Layout.alignment: Layout.Center
+                    Layout.margins: 5
+
                     bgcolor: "lightgrey"
                     txtcolor: "black"
                     onClicked: {
@@ -60,6 +62,8 @@ Window{
                 CustomButton {
                     id: changeStateButton
                     Layout.alignment: Layout.Center
+                    Layout.margins: 5
+
                     bgcolor: "lightgrey"
                     txtcolor: "black"
                     onClicked: {
@@ -72,6 +76,8 @@ Window{
                 CustomButton {
                     id: gaffeButton
                     Layout.alignment: Layout.Center
+                    Layout.margins: 5
+
                     bgcolor: "red"
                     txtcolor: "white"
                     onClicked: {
@@ -83,6 +89,8 @@ Window{
                 CustomButton {
                     id: endButton
                     Layout.alignment: Layout.Center
+                    Layout.margins: 5
+
                     bgcolor: "lightgrey"
                     txtcolor: "black"
                     onClicked: {

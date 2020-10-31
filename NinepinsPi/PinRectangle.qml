@@ -40,8 +40,7 @@ color: "white"
             pinNum:0
             isDown: readPinStatus(pinNum)
             onClicked: {
-
-                isDown = changePinStatus(pinNum)
+                isClickable ? {isDown = changePinStatus(pinNum)} : {}
             }
         }
         Rectangle{width:1}
@@ -53,7 +52,7 @@ color: "white"
             pinNum:1
             isDown: readPinStatus(pinNum)
             onClicked: {
-                isDown = changePinStatus(pinNum)
+                isClickable ? {isDown = changePinStatus(pinNum)} : {}
             }        }
         Rectangle{width:1}
         PinShape{
@@ -61,7 +60,7 @@ color: "white"
             pinNum:2
             isDown: readPinStatus(pinNum)
             onClicked: {
-                isDown = changePinStatus(pinNum)
+                isClickable ? {isDown = changePinStatus(pinNum)} : {}
             }    }
         Rectangle{width:1}
 
@@ -70,7 +69,7 @@ color: "white"
             pinNum:3
             isDown: readPinStatus(pinNum)
             onClicked: {
-                isDown = changePinStatus(pinNum)
+                isClickable ? {isDown = changePinStatus(pinNum)} : {}
             }        }
         Rectangle{width:1}
         PinShape{
@@ -78,7 +77,7 @@ color: "white"
             pinNum:4
             isDown: readPinStatus(pinNum)
             onClicked: {
-                isDown = changePinStatus(pinNum)
+                isClickable ? {isDown = changePinStatus(pinNum)} : {}
             }        }
         Rectangle{width:1}
         PinShape{
@@ -86,7 +85,7 @@ color: "white"
             pinNum:5
             isDown: readPinStatus(pinNum)
             onClicked: {
-                isDown = changePinStatus(pinNum)
+                isClickable ? {isDown = changePinStatus(pinNum)} : {}
             }        }
 
         Rectangle{width:1}
@@ -95,7 +94,7 @@ color: "white"
             pinNum:6
             isDown: readPinStatus(pinNum)
             onClicked: {
-                isDown = changePinStatus(pinNum)
+                isClickable ? {isDown = changePinStatus(pinNum)} : {}
             }        }
         Rectangle{width:1}
         PinShape{
@@ -103,7 +102,7 @@ color: "white"
             pinNum:7
             isDown: readPinStatus(pinNum)
             onClicked: {
-                isDown = changePinStatus(pinNum)
+                isClickable ? {isDown = changePinStatus(pinNum)} : {}
             }            }
         Rectangle{width:1}
 
@@ -115,7 +114,7 @@ color: "white"
             pinNum:8
             isDown: readPinStatus(pinNum)
             onClicked: {
-                isDown = changePinStatus(pinNum)
+                isClickable ? {isDown = changePinStatus(pinNum)} : {}
             }
         }
         Rectangle{width:1}

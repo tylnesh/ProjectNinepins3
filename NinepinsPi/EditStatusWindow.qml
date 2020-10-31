@@ -27,69 +27,13 @@ Window {
         height: parent.height
         color: "white"
 
-        Rectangle {
-            id: labelRect
-            anchors.right: gameRect.right
-            anchors.top: gameRect.top
-            width: 250
-            height: 100
-            color: "green"
-            Text {
-                id: labelText
-                anchors.centerIn: parent
-                color: "white"
-                font.pointSize: 22
-                text: root.type
-            }
+        ScorePanel{
+            id: scorePanel
+            anchors.top: parent.top
+            anchors.right: parent.right
+            isEditable: true
         }
 
-        Rectangle {
-            id: roundsRect
-            color: "lightgrey"
-            width: labelRect.width / 2
-            height: labelRect.height / 2
-            anchors.right: pointsRect.left
-            anchors.top: gameRect.top
-
-            Text {
-                id: rounds
-                anchors.centerIn: parent
-                font.pointSize: 22
-                text: CommProviderApi.CommProvider.rounds
-            }
-        }
-
-        Rectangle {
-            id: pointsRect
-            color: "lightgrey"
-            width: roundsRect.width
-            height: roundsRect.height
-            anchors.right: scoreRect.left
-            anchors.top: gameRect.top
-
-            Text {
-                id: points
-                anchors.centerIn: parent
-                font.pointSize: 22
-                text: CommProviderApi.CommProvider.points
-            }
-        }
-
-        Rectangle {
-            id: scoreRect
-            color: "lightgrey"
-            width: pointsRect.width
-            height: pointsRect.height
-            anchors.right: labelRect.left
-            anchors.top: gameRect.top
-
-            Text {
-                id: score
-                anchors.centerIn: parent
-                font.pointSize: 22
-                text: CommProviderApi.CommProvider.score
-            }
-        }
 
         Rectangle {
             id: buttonRect
@@ -101,9 +45,10 @@ Window {
             ColumnLayout {
                 anchors.centerIn: buttonRect
                 CustomButton {
-
                     id: settingPinsButton
                     Layout.alignment: Layout.Center
+                    Layout.margins: 5
+
                     bgcolor: "lightgrey"
                     txtcolor: "black"
                     onClicked: {
@@ -115,9 +60,14 @@ Window {
                 CustomButton {
                     id: changeStateButton
                     Layout.alignment: Layout.Center
+                    Layout.margins: 5
+
                     bgcolor: "lightgrey"
                     txtcolor: "black"
                     onClicked: {
+
+                        //CommProviderApi.CommProvider.sendChangeStateMessage();
+                        root.open();
 
                     }
                     text: "Úprava"
@@ -125,6 +75,8 @@ Window {
             }
         }
 
-        PinRectangle{}
+        PinRectangle{
+        isClickable: true
+        }
     }
 }

@@ -12,6 +12,17 @@ anchors.bottom: parent.bottom
 
 
 property bool isClickable: false
+property var pinArray: [
+    pin0.isDown,
+    pin1.isDown,
+    pin2.isDown,
+    pin3.isDown,
+    pin4.isDown,
+    pin5.isDown,
+    pin6.isDown,
+    pin7.isDown,
+    pin8.isDown
+]
 
 function readPinStatus(i) {
     return new Uint8Array(CommProviderApi.CommProvider.pins)[i]

@@ -79,7 +79,13 @@ void CommProvider::setScore(uint16_t score){
 void CommProvider::setPins(QByteArray pins){
     if (_pins != pins) {
         _pins = pins;
+        bool pinBools[9];
+        for (int i = 0; i<9;i++) pinBools[i] = pins.at(i);
+
+        qDebug() << pinBools;
         emit pinsChanged();
     }
+
+    qDebug() << "pins changed";
 
 }

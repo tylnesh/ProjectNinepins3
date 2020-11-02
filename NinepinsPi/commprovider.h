@@ -28,10 +28,10 @@ public:
     int score();
     QByteArray pins();
 
-    void setPoints(uint8_t points);
-    void setRounds(uint8_t rounds);
-    void setScore(uint16_t score);
-    void setPins(QByteArray pins);
+    Q_INVOKABLE void setPoints(uint8_t points);
+    Q_INVOKABLE void setRounds(uint8_t rounds);
+    Q_INVOKABLE void setScore(uint16_t score);
+    Q_INVOKABLE void setPins(QByteArray pins);
 
 signals:
 

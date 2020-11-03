@@ -66,20 +66,6 @@ Window {
                     txtcolor: "black"
                     onClicked: {
 
-                        //CommProviderApi.CommProvider.sendChangeStateMessage();
-                        console.log(pinRect.pinArray)
-
-                        var buffer = new ArrayBuffer(9);
-                        for (var i = 0; i < 9; i++) {
-
-                            buffer[i] = pinRect.pinArray.valueOf(i)
-                        }
-                        console.log(buffer)
-
-
-                        CommProviderApi.CommProvider.setPins(buffer);
-                        //root.open();
-
                     }
                     text: "Úprava"
                 }

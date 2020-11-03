@@ -12,20 +12,26 @@ anchors.bottom: parent.bottom
 
 
 property bool isClickable: false
-property var pinArray: [
-    pin0.isDown,
-    pin1.isDown,
-    pin2.isDown,
-    pin3.isDown,
-    pin4.isDown,
-    pin5.isDown,
-    pin6.isDown,
-    pin7.isDown,
-    pin8.isDown
-]
+
+
+function getPinStatus() {
+    var pinStatus = new ArrayBuffer(9);
+    pinStatus[0] = pin0.isDown;
+    pinStatus[1] = pin1.isDown;
+    pinStatus[2] = pin2.isDown;
+    pinStatus[3] = pin3.isDown;
+    pinStatus[4] = pin4.isDown;
+    pinStatus[5] = pin5.isDown;
+    pinStatus[6] = pin6.isDown;
+    pinStatus[7] = pin7.isDown;
+    pinStatus[8] = pin8.isDown;
+
+    return pinStatus;
+}
 
 function readPinStatus(i) {
-    return new Uint8Array(CommProviderApi.CommProvider.pins)[i]
+    //return new Uint8Array(CommProviderApi.CommProvider.pins)[i]
+    return CommProviderApi.CommProvider.pins[i]
 }
 
 function changePinStatus(i) {

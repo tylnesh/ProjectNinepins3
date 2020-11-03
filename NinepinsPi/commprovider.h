@@ -14,7 +14,7 @@ class CommProvider : public QObject
     Q_PROPERTY(int points READ points WRITE setPoints NOTIFY pointsChanged)
     Q_PROPERTY(int rounds READ rounds WRITE setRounds NOTIFY roundsChanged)
     Q_PROPERTY(int score READ score WRITE setScore NOTIFY scoreChanged)
-    Q_PROPERTY(QByteArray pins READ pins WRITE setPins NOTIFY pinsChanged)
+    Q_PROPERTY(QVector<bool> pins READ pins WRITE setPins NOTIFY pinsChanged)
 
 public:
     explicit CommProvider(QObject *parent = nullptr);
@@ -26,12 +26,12 @@ public:
     int points();
     int rounds();
     int score();
-    QByteArray pins();
+    QVector<bool> pins();
 
     Q_INVOKABLE void setPoints(uint8_t points);
     Q_INVOKABLE void setRounds(uint8_t rounds);
     Q_INVOKABLE void setScore(uint16_t score);
-    Q_INVOKABLE void setPins(QByteArray pins);
+    Q_INVOKABLE void setPins(QVector<bool> pins);
 
 signals:
 
@@ -53,7 +53,7 @@ private:
     uint16_t _score = 0;
     uint8_t _rounds = 0;
     uint8_t _points = 0;
-    QByteArray _pins;
+    QVector<bool> _pins = {1,1,1,1,1,1,1,1,1};
 
 
 

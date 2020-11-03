@@ -52,7 +52,7 @@ int CommProvider::rounds(){
 int CommProvider::score(){
     return (int) _score;
 }
-QByteArray CommProvider::pins(){
+QVector<bool> CommProvider::pins(){
     return _pins;
 }
 
@@ -76,16 +76,19 @@ void CommProvider::setScore(uint16_t score){
         emit scoreChanged();
     }
 }
-void CommProvider::setPins(QByteArray pins){
+void CommProvider::setPins(QVector<bool> pins){
     if (_pins != pins) {
         _pins = pins;
-        bool pinBools[9];
-        for (int i = 0; i<9;i++) pinBools[i] = pins.at(i);
+        //bool pinBools[9];
+        //for (int i = 0; i<9;i++) {
+         //   pinBools[i] = pins.at(i);
+          //  qDebug() << "pinBools" << pinBools[i] << " " << "QML pins " << pins.at(i);
+      //  }
 
-        qDebug() << pinBools;
+
         emit pinsChanged();
     }
 
-    qDebug() << "pins changed";
+  //  qDebug() << "pins changed";
 
 }

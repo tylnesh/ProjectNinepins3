@@ -7,10 +7,9 @@ CommProvider::CommProvider(QObject *parent) : QObject(parent)
     serial = new SerialComm();
     serial->subscribeToUpdates([this] (const State &status) { updateProperties(status); }); // Dugi's CPP black magic
 
+    _pins = QVector<bool>(9);
+    _pins.fill(false);
 
-    for (unsigned int i = 0; i < 9; i++){
-    _pins[i] = 0;
-    }
 
 }
 
@@ -77,18 +76,19 @@ void CommProvider::setScore(uint16_t score){
     }
 }
 void CommProvider::setPins(QVector<bool> pins){
+
+
+
     if (_pins != pins) {
         _pins = pins;
-        //bool pinBools[9];
-        //for (int i = 0; i<9;i++) {
-         //   pinBools[i] = pins.at(i);
-          //  qDebug() << "pinBools" << pinBools[i] << " " << "QML pins " << pins.at(i);
-      //  }
+        bool pinBools[9];
 
-
+        for (int i = 0; i<9;i++) {
+            pinBools[i] = pins.at(i);
+            qDebug() << "pin" << i << " pinBools" << pinBools[i] << " " << "QML pins " << pins.at(i);
+        }
         emit pinsChanged();
     }
+    }
 
-  //  qDebug() << "pins changed";
 
-}

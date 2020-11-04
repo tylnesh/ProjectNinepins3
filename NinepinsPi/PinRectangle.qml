@@ -15,7 +15,7 @@ property bool isClickable: false
 
 
 function getPinStatus() {
-    var pinStatus = new ArrayBuffer(9);
+    var pinStatus= [false,false,false,false,false,false,false,false,false];
     pinStatus[0] = pin0.isDown;
     pinStatus[1] = pin1.isDown;
     pinStatus[2] = pin2.isDown;
@@ -35,11 +35,21 @@ function readPinStatus(i) {
 }
 
 function changePinStatus(i) {
-    if ((new Uint8Array(CommProviderApi.CommProvider.pins)[i]) % 2)
-        new Uint8Array(CommProviderApi.CommProvider.pins)[i] = 0
-    else
-        new Uint8Array(CommProviderApi.CommProvider.pins)[i] = 1
-    return new Uint8Array(CommProviderApi.CommProvider.pins)[i]
+
+    console.log("changePinStatus" + i)
+
+    console.log(CommProviderApi.CommProvider.pins[i])
+
+    //CommProviderApi.CommProvider.pin[i] = !CommProviderApi.CommProvider.pins[i]
+
+    return !CommProviderApi.CommProvider.pins[i]
+
+
+    //if ((new Uint8Array(CommProviderApi.CommProvider.pins)[i]) === true)
+     //   new Uint8Array(CommProviderApi.CommProvider.pins)[i] = false
+    //else
+     //   new Uint8Array(CommProviderApi.CommProvider.pins)[i] = true
+    //return new Uint8Array(CommProviderApi.CommProvider.pins)[i]
 }
 
 
@@ -57,7 +67,12 @@ color: "white"
             pinNum:0
             isDown: readPinStatus(pinNum)
             onClicked: {
-                isClickable ? {isDown = changePinStatus(pinNum)} : {}
+
+                if (isClickable) {
+                isDown = changePinStatus(pinNum)
+                }
+
+               // isClickable ? {isDown = changePinStatus(pinNum)} : {}
             }
         }
         Rectangle{width:1}

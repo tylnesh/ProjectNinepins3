@@ -53,7 +53,7 @@ private:
     uint16_t _score = 0;
     uint8_t _rounds = 0;
     uint8_t _points = 0;
-    QVector<bool> _pins = {1,1,1,1,1,1,1,1,1};
+    QVector<bool> _pins;
 
 
 

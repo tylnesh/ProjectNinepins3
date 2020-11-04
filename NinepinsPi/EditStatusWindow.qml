@@ -12,6 +12,7 @@ Window {
     signal changeOK
     signal changeCancel
     signal settingPins
+    signal changeState
 
     id: root
     width: gameWidth
@@ -19,6 +20,11 @@ Window {
 
     minimumWidth: 1000
     minimumHeight: 600
+
+    onChangeOK: {
+    var pinStatus = pinRect.getPinStatus()
+    CommProviderApi.CommProvider.setPins(pinStatus)
+    }
 
     Rectangle {
 
@@ -65,7 +71,7 @@ Window {
                     bgcolor: "lightgrey"
                     txtcolor: "black"
                     onClicked: {
-
+                        root.changeOK()
                     }
                     text: "Úprava"
                 }

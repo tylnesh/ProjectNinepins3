@@ -23,6 +23,13 @@ Window{
     EditStatusWindow {
         id: editStatusWindow
         visible: false
+
+        onChangeOK: {
+            editStatusWindow.setVisible(false)
+            root.setVisible(true)
+
+
+        }
     }
 
     Rectangle {
@@ -67,8 +74,8 @@ Window{
                     bgcolor: "lightgrey"
                     txtcolor: "black"
                     onClicked: {
-                        editStatusWindow.visible = true
-                        gameWindow.setVisible(false);
+                        editStatusWindow.setVisible(true);
+                        root.setVisible(false);
                     }
                     text: "Úprava"
                 }
@@ -95,7 +102,7 @@ Window{
                     txtcolor: "black"
                     onClicked: {
                         mainWindow.visible = true
-                        gameWindow.visible = false
+                        root.visible = false
                         root.endGame()
 
                     }
@@ -105,5 +112,9 @@ Window{
         }
 
         PinRectangle{}
+
+
+
+
     }
 }

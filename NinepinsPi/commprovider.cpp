@@ -55,21 +55,22 @@ QVector<bool> CommProvider::pins(){
     return _pins;
 }
 
-void CommProvider::setPoints(uint8_t points){
+void CommProvider::setPoints(int points){
     if (_points != points) {
         _points = points;
-            qDebug() << "setting points with setPoints function";
+            qDebug() << "setting points with setPoints function " << _points ;
+
         emit pointsChanged();
     }
 }
 
-void CommProvider::setRounds(uint8_t rounds){
+void CommProvider::setRounds(int rounds){
     if (_rounds != rounds) {
         _rounds = rounds;
         emit roundsChanged();
     }
 }
-void CommProvider::setScore(uint16_t score){
+void CommProvider::setScore(int score){
     if (_score != score) {
         _score = score;
         emit scoreChanged();

@@ -28,9 +28,9 @@ public:
     int score();
     QVector<bool> pins();
 
-    Q_INVOKABLE void setPoints(uint8_t points);
-    Q_INVOKABLE void setRounds(uint8_t rounds);
-    Q_INVOKABLE void setScore(uint16_t score);
+    Q_INVOKABLE void setPoints(int points);
+    Q_INVOKABLE void setRounds(int rounds);
+    Q_INVOKABLE void setScore(int score);
     Q_INVOKABLE void setPins(QVector<bool> pins);
 
 signals:
@@ -50,9 +50,9 @@ private:
     SerialComm *serial;
 
 
-    uint16_t _score = 0;
-    uint8_t _rounds = 0;
-    uint8_t _points = 0;
+    int _score = 0;
+    int _rounds = 0;
+    int _points = 0;
     QVector<bool> _pins;
 
 

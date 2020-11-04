@@ -12,9 +12,10 @@ Item {
         id: labelRect
         anchors.right:  parent.right
         anchors.top: parent.top
-        width: 200
-        height: panelHeight
+        width: 300
+        height: isEditable ? panelHeight*2 : panelHeight
         color: "green"
+        border.color:"black"
         Text {
             id: labelText
             anchors.centerIn: parent
@@ -27,8 +28,9 @@ Item {
     Rectangle{
         id: roundsRect
         color: "lightgrey"
+        border.color:"black"
         width: labelRect.width / 2
-        height: labelRect.height
+        height: panelHeight
         anchors.right: pointsRect.left
         anchors.top: parent.top
 
@@ -39,13 +41,50 @@ Item {
             font.pointSize: 22
             text: CommProviderApi.CommProvider.rounds
         }
+
+        CustomButton {
+            text: "+"
+            anchors.top: parent.bottom
+            anchors.left: parent.left
+
+            height: parent.height/2
+            width: parent.width/2
+
+            bgcolor: "green"
+            txtcolor: "white"
+
+            visible: isEditable ? true : false
+            onClicked: {
+                CommProviderApi.CommProvider.setRounds(CommProviderApi.CommProvider.rounds++)
+            }
+        }
+        CustomButton {
+            text: "-"
+            anchors.top: parent.bottom
+            anchors.right: parent.right
+
+            height: parent.height/2
+            width: parent.width/2
+
+            bgcolor: "green"
+            txtcolor: "white"
+
+            visible: isEditable ? true : false
+            onClicked: {
+                CommProviderApi.CommProvider.setRounds(CommProviderApi.CommProvider.rounds--)
+            }
+        }
+
     }
+
+
 
     Rectangle{
         id: pointsRect
         color: "lightgrey"
+        border.color:"black"
         width: roundsRect.width
-        height: roundsRect.height
+        height: panelHeight
         anchors.right: scoreRect.left
         anchors.top: parent.top
 
@@ -55,13 +94,47 @@ Item {
             font.pointSize: 22
             text: CommProviderApi.CommProvider.points
         }
+
+        CustomButton {
+            text: "+"
+            anchors.top: parent.bottom
+            anchors.left: parent.left
+
+            height: parent.height/2
+            width: parent.width/2
+
+            bgcolor: "green"
+            txtcolor: "white"
+
+            visible: isEditable ? true : false
+            onClicked: {
+                CommProviderApi.CommProvider.setRounds(CommProviderApi.CommProvider.points++)
+            }
+        }
+        CustomButton {
+            text: "-"
+            anchors.top: parent.bottom
+            anchors.right: parent.right
+
+            height: parent.height/2
+            width: parent.width/2
+
+            bgcolor: "green"
+            txtcolor: "white"
+
+            visible: isEditable ? true : false
+            onClicked: {
+                CommProviderApi.CommProvider.setRounds(CommProviderApi.CommProvider.points--)
+            }
+        }
     }
 
     Rectangle{
         id: scoreRect
         color: "lightgrey"
+        border.color:"black"
         width: pointsRect.width
-        height: pointsRect.height
+        height: panelHeight
         anchors.right: labelRect.left
         anchors.top: parent.top
 
@@ -71,6 +144,39 @@ Item {
             anchors.centerIn: parent
             font.pointSize: 22
             text: CommProviderApi.CommProvider.score
+        }
+
+        CustomButton {
+            text: "+"
+            anchors.top: parent.bottom
+            anchors.left: parent.left
+
+            height: parent.height/2
+            width: parent.width/2
+
+            bgcolor: "green"
+            txtcolor: "white"
+
+            visible: isEditable ? true : false
+            onClicked: {
+                CommProviderApi.CommProvider.setRounds(CommProviderApi.CommProvider.score++)
+            }
+        }
+        CustomButton {
+            text: "-"
+            anchors.top: parent.bottom
+            anchors.right: parent.right
+
+            height: parent.height/2
+            width: parent.width/2
+
+            bgcolor: "green"
+            txtcolor: "white"
+
+            visible: isEditable ? true : false
+            onClicked: {
+                CommProviderApi.CommProvider.setRounds(CommProviderApi.CommProvider.score--)
+            }
         }
     }        }
 
